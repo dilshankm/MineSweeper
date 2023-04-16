@@ -1,6 +1,6 @@
 package com.minesweeper;
 
-public class Game {
+public class Game implements IGame {
     private final GameGrid grid;
     private final int totalMines;
     private int revealedCount;
@@ -15,12 +15,12 @@ public class Game {
 
     public void selectSquare(String input) {
         Position pos = grid.parseCoordinate(input);
-        Cell cell = grid.getCell(pos.getRow(), pos.getCol());
+        Cell cell = grid.getCell(pos.row(), pos.col());
         if (cell.isMine()) {
             cell.setRevealed(true);
             gameState = GameState.LOST;
         } else {
-            revealCell(pos.getRow(), pos.getCol());
+            revealCell(pos.row(), pos.col());
             if (revealedCount == grid.getSize() * grid.getSize() - totalMines) {
                 gameState = GameState.WON;
             }

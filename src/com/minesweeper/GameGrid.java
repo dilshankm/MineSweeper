@@ -1,8 +1,10 @@
 package com.minesweeper;
 
+import com.minesweeper.exceptions.InvalidInputException;
+
 import java.util.Random;
 
-public class GameGrid {
+public class GameGrid implements IGrid {
     private final Cell[][] grid;
     private final int size;
     private final int mineCount;
