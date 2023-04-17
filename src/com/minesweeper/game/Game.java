@@ -49,6 +49,9 @@ public class Game implements IGame {
             }
         }
     }
+    public int getAdjacentMinesAt(int row, int col) {
+        return grid.getCell(row, col).getAdjacentMines();
+    }
 
     public boolean isGameWon() {
         return gameState == GameState.WON;

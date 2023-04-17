@@ -12,10 +12,11 @@ public class Messages {
     public static final String DETONATED_MINE_MESSAGE = "Oh no, you detonated a mine! Game over.";
     public static final String WON_MESSAGE = "Congratulations, you have won the game!";
     public static final String PLAY_AGAIN_MESSAGE = "Press any key to play again...";
-    public static final String QUIT_MESSAGE = "quit";
+    public static final String SQUARE_INFO_FORMAT = "This square contains %d adjacent mines.";
     public static final String INVALID_INPUT_MESSAGE = "Invalid input. Value must be between %d and %d.\n";
     public static final String MIN_GRID_MESSAGE = "Minimum size of grid is ";
     public static final String MAX_GRID_MESSAGE = "Maximum size of grid is ";
-
+    public static final String MAX_MINE_COUNT_MESSAGE = "Maximum number is 35% of total squares.";
+    public static final String AT_LEAST_ONE_MINE_MESSAGE = "There must be at least 1 mine.";
 
 }

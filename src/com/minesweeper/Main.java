@@ -3,6 +3,7 @@ package com.minesweeper;
 
 import com.minesweeper.game.Game;
 import com.minesweeper.game.GameState;
+import com.minesweeper.messages.Messages;
 import com.minesweeper.ui.console.ConsoleInterface;
 
 public class Main {
@@ -17,7 +18,11 @@ public class Main {
             while (game.getGameState() == GameState.PLAYING) {
                 ui.displayGame(game);
                 String input = ui.getInputString(gridSize);
+                int row = input.charAt(0) - 'A';
+                int col = Integer.parseInt(input.substring(1)) - 1;
                 game.selectSquare(input);
+                System.out.println(Messages.UPDATED_MINEFIELD_MESSAGE);
+                ui.displaySquareInfo(game, row, col);
                 ui.displayGameState(game);
             }
             ui.playAgainPrompt();

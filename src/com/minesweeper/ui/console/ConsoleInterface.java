@@ -37,13 +37,12 @@ public class ConsoleInterface implements UserInterface {
                     }
                 }
             } else {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println(Messages.INCORRECT_MESSAGE);
                 scanner.nextLine();
             }
         }
         return gridSize;
     }
-
     public int getNumberOfMines(int gridSize) {
         int mineCount;
         int maxMines = (int) (gridSize * gridSize * Constants.MAX_MINE);
@@ -54,20 +53,29 @@ public class ConsoleInterface implements UserInterface {
                 if (mineCount >= 1 && mineCount <= maxMines) {
                     break;
                 } else {
-                    System.out.println("Invalid number of mines. Please enter a number between 1 and " + maxMines + ".");
+                    if (mineCount < 1) {
+                        System.out.println(Messages.AT_LEAST_ONE_MINE_MESSAGE);
+                    } else {
+                        System.out.println(Messages.MAX_MINE_COUNT_MESSAGE);
+                    }
                 }
             } else {
-                System.out.println("Incorrect input. Please enter a number.");
-                scanner.nextLine();
+                System.out.println(Messages.INCORRECT_MESSAGE);
+                scanner.next(); // Change this line
             }
         }
         return mineCount;
     }
 
     public void displayGame(Game game) {
+        System.out.println();
         System.out.println(Messages.MINEFIELD_MESSAGE);
         System.out.println(game.toString());
-        System.out.println();
+    }
+
+    public void displaySquareInfo(Game game, int row, int col) {
+        int mines = game.getAdjacentMinesAt(row, col);
+        System.out.printf((Messages.SQUARE_INFO_FORMAT) + "%n", mines);
     }
 
     public String getInputString(int gridSize) {
@@ -78,10 +86,10 @@ public class ConsoleInterface implements UserInterface {
             if (isValidInput(input, gridSize)) {
                 break;
             } else {
-                System.out.println("Incorrect input. Please enter the correct format (e.g. A1).");
+                System.out.println(Messages.INCORRECT_MESSAGE);
             }
         }
-        scanner.nextLine(); // clear input buffer
+        scanner.nextLine();
         return input;
     }
 
