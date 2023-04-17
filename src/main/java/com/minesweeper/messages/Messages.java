@@ -13,7 +13,6 @@ public class Messages {
     public static final String WON_MESSAGE = "Congratulations, you have won the game!";
     public static final String PLAY_AGAIN_MESSAGE = "Press any key to play again...";
     public static final String SQUARE_INFO_FORMAT = "This square contains %d adjacent mines.";
-    public static final String INVALID_INPUT_MESSAGE = "Invalid input. Value must be between %d and %d.\n";
     public static final String MIN_GRID_MESSAGE = "Minimum size of grid is ";
     public static final String MAX_GRID_MESSAGE = "Maximum size of grid is ";
     public static final String MAX_MINE_COUNT_MESSAGE = "Maximum number is 35% of total squares.";

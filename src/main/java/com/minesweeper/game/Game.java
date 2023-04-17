@@ -3,6 +3,11 @@ package com.minesweeper.game;
 public class Game implements IGame {
     private final GameGrid grid;
     private final int totalMines;
+
+    public int getRevealedCount() {
+        return revealedCount;
+    }
+
     private int revealedCount;
     private GameState gameState;
 

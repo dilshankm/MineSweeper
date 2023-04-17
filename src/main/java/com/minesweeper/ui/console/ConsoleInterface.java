@@ -69,7 +69,12 @@ public class ConsoleInterface implements UserInterface {
 
     public void displayGame(Game game) {
         System.out.println();
-        System.out.println(Messages.MINEFIELD_MESSAGE);
+        if(game.getRevealedCount()>=1){
+            System.out.println(Messages.UPDATED_MINEFIELD_MESSAGE);
+        }
+        else{
+            System.out.println(Messages.MINEFIELD_MESSAGE);
+        }
         System.out.println(game.toString());
     }
 
