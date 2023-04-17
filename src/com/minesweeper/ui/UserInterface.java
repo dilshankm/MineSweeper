@@ -1,6 +1,6 @@
 package com.minesweeper.ui;
 
-import com.minesweeper.Game;
+import com.minesweeper.game.Game;
 
 public interface UserInterface {
     void displayWelcomeMessage();

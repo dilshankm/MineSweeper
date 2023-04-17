@@ -1,4 +1,4 @@
-package com.minesweeper;
+package com.minesweeper.messages;
 
 public class Messages {
 
@@ -11,8 +11,11 @@ public class Messages {
     public static final String INCORRECT_MESSAGE = "Incorrect input.";
     public static final String DETONATED_MINE_MESSAGE = "Oh no, you detonated a mine! Game over.";
     public static final String WON_MESSAGE = "Congratulations, you have won the game!";
-    public static final String PLAY_AGAIN_MESSAGE = "Press any key to play again or type 'quit' to exit: ";
+    public static final String PLAY_AGAIN_MESSAGE = "Press any key to play again...";
     public static final String QUIT_MESSAGE = "quit";
     public static final String INVALID_INPUT_MESSAGE = "Invalid input. Value must be between %d and %d.\n";
+    public static final String MIN_GRID_MESSAGE = "Minimum size of grid is ";
+    public static final String MAX_GRID_MESSAGE = "Maximum size of grid is ";
+
 
 }

@@ -1,4 +1,4 @@
-package com.minesweeper;
+package com.minesweeper.game;
 
 import com.minesweeper.exceptions.InvalidInputException;
 

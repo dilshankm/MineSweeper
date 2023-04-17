@@ -1,8 +1,11 @@
-// ConsoleInterface.java
-package com.minesweeper.ui;
+package com.minesweeper.ui.console;
 
-import com.minesweeper.Game;
-import com.minesweeper.GameState;
+import com.minesweeper.constant.Constants;
+import com.minesweeper.game.Game;
+import com.minesweeper.game.GameState;
+import com.minesweeper.messages.Messages;
+import com.minesweeper.ui.UserInterface;
+import com.minesweeper.utils.Utils;
 
 import java.util.Scanner;
 
@@ -14,25 +17,23 @@ public class ConsoleInterface implements UserInterface {
     }
 
     public void displayWelcomeMessage() {
-        System.out.println("Welcome to Minesweeper!");
+        System.out.println(Messages.WELCOME_MESSAGE);
         System.out.println();
     }
 
     public int getGridSize() {
         int gridSize;
-        int minSize = 3;
-        int maxSize = 10;
         while (true) {
-            System.out.print("Enter the size of the grid (e.g. 4 for a 4x4 grid): ");
+            System.out.print(Messages.GRID_MESSAGE);
             if (scanner.hasNextInt()) {
                 gridSize = scanner.nextInt();
-                if (gridSize >= minSize && gridSize <= maxSize) {
+                if (gridSize >= Constants.GRID_MIN_SIZE && gridSize <= Constants.GRID_MAX_SIDE) {
                     break;
                 } else {
-                    if (gridSize < minSize) {
-                        System.out.println("Minimum size of grid is " + minSize + ".");
-                    } else if (gridSize > maxSize) {
-                        System.out.println("Maximum size of grid is " + maxSize + ".");
+                    if (gridSize < Constants.GRID_MIN_SIZE) {
+                        System.out.println(Messages.MIN_GRID_MESSAGE + Constants.GRID_MIN_SIZE + ".");
+                    } else if (gridSize > Constants.GRID_MAX_SIDE) {
+                        System.out.println(Messages.MAX_GRID_MESSAGE + Constants.GRID_MAX_SIDE + ".");
                     }
                 }
             } else {
@@ -45,9 +46,9 @@ public class ConsoleInterface implements UserInterface {
 
     public int getNumberOfMines(int gridSize) {
         int mineCount;
-        int maxMines = (int) (gridSize * gridSize * 0.35);
+        int maxMines = (int) (gridSize * gridSize * Constants.MAX_MINE);
         while (true) {
-            System.out.print("Enter the number of mines to place on the grid (maximum is 35% of the total squares): ");
+            System.out.print(Messages.MINE_MESSAGE);
             if (scanner.hasNextInt()) {
                 mineCount = scanner.nextInt();
                 if (mineCount >= 1 && mineCount <= maxMines) {
@@ -64,7 +65,7 @@ public class ConsoleInterface implements UserInterface {
     }
 
     public void displayGame(Game game) {
-        System.out.println();
+        System.out.println(Messages.MINEFIELD_MESSAGE);
         System.out.println(game.toString());
         System.out.println();
     }
@@ -72,7 +73,7 @@ public class ConsoleInterface implements UserInterface {
     public String getInputString(int gridSize) {
         String input;
         while (true) {
-            System.out.print("Select a square to reveal (e.g. A1): ");
+            System.out.print(Messages.SELECT_SQUARE_MESSAGE);
             input = scanner.next().toUpperCase();
             if (isValidInput(input, gridSize)) {
                 break;
@@ -87,25 +88,22 @@ public class ConsoleInterface implements UserInterface {
     public void displayGameState(Game game) {
         if (game.isGameWon()) {
             game.setGameState(GameState.WON);
-            System.out.println("Congratulations, you have won the game!");
+            System.out.println(Messages.WON_MESSAGE);
         } else if (game.getGameState() == GameState.LOST) {
-            System.out.println("Oh no, you detonated a mine! Game over.");
+            System.out.println(Messages.DETONATED_MINE_MESSAGE);
         }
     }
 
     public void playAgainPrompt() {
-        System.out.println("Press any key to play again...");
+        System.out.println(Messages.PLAY_AGAIN_MESSAGE);
         scanner.nextLine();
     }
 
-    private static boolean isNumeric(String str) {
-        return str.chars().allMatch(Character::isDigit);
-    }
     private boolean isValidInput(String input, int gridSize) {
         if (input.length() >= 2) {
             char row = input.charAt(0);
             String colStr = input.substring(1);
-            if (Character.isLetter(row) && isNumeric(colStr)) {
+            if (Character.isLetter(row) && Utils.isNumeric(colStr)) {
                 int rowNum = row - 'A';
                 int colNum = Integer.parseInt(colStr) - 1;
                 if (rowNum >= 0 && rowNum < gridSize && colNum >= 0 && colNum < gridSize) {

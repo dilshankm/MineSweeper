@@ -1,4 +1,4 @@
-package com.minesweeper;
+package com.minesweeper.game;
 
 public record Position(int row, int col) {
 }

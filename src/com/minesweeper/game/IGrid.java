@@ -1,4 +1,4 @@
-package com.minesweeper;
+package com.minesweeper.game;
 
 public interface IGrid {
 

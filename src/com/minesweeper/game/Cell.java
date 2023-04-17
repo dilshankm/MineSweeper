@@ -1,4 +1,4 @@
-package com.minesweeper;
+package com.minesweeper.game;
 
 public class Cell {
     private boolean isMine;
