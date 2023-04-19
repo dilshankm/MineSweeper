@@ -6,9 +6,11 @@ com/minesweeper/Main.class
 com/minesweeper/game/Position.class
 com/minesweeper/exceptions/InvalidInputException.class
 com/minesweeper/constant/Constants.class
+com/minesweeper/ui/console/ScannerFactory.class
 com/minesweeper/game/Game.class
 com/minesweeper/game/IGame.class
 com/minesweeper/game/Cell.class
 com/minesweeper/game/GameGrid.class
 com/minesweeper/messages/Messages.class
 com/minesweeper/ui/UserInterface.class
+com/minesweeper/ui/console/DefaultScannerFactory.class

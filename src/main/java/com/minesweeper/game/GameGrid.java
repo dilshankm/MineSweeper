@@ -3,11 +3,20 @@ package com.minesweeper.game;
 import com.minesweeper.exceptions.InvalidInputException;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class GameGrid implements IGrid {
     private final Cell[][] grid;
     private final int size;
     private final int mineCount;
+
+    public Cell getCell(int row, int col) {
+        return grid[row][col];
+    }
+
+    public int getSize() {
+        return size;
+    }
 
     public GameGrid(int size, int mineCount) {
         this.size = size;
@@ -19,11 +28,9 @@ public class GameGrid implements IGrid {
     }
 
     private void initializeGrid() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                grid[i][j] = new Cell(false, 0);
-            }
-        }
+        IntStream.range(0, size).forEach(i ->
+                IntStream.range(0, size).forEach(j ->
+                        grid[i][j] = new Cell(false, 0)));
     }
 
     private void plantMines() {
@@ -41,38 +48,24 @@ public class GameGrid implements IGrid {
     }
 
     private void setAdjacentMines() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                int adjacentMines = countAdjacentMines(i, j);
-                Cell cell = grid[i][j];
-                cell.setAdjacentMines(adjacentMines);
-            }
-        }
+        IntStream.range(0, size).forEach(i ->
+                IntStream.range(0, size).forEach(j -> {
+                    int adjacentMines = countAdjacentMines(i, j);
+                    Cell cell = grid[i][j];
+                    cell.setAdjacentMines(adjacentMines);
+                }));
     }
 
     private int countAdjacentMines(int row, int col) {
-        int count = 0;
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int newRow = row + i;
-                int newCol = col + j;
-                if (isInsideGrid(newRow, newCol)) {
-                    Cell cell = grid[newRow][newCol];
-                    if (cell.isMine()) {
-                        count++;
+        return (int) IntStream.rangeClosed(-1, 1).flatMap(i ->
+                IntStream.rangeClosed(-1, 1).map(j -> {
+                    int newRow = row + i;
+                    int newCol = col + j;
+                    if (isInsideGrid(newRow, newCol)) {
+                        return grid[newRow][newCol].isMine() ? 1 : 0;
                     }
-                }
-            }
-        }
-        return count;
-    }
-
-    public Cell getCell(int row, int col) {
-        return grid[row][col];
-    }
-
-    public int getSize() {
-        return size;
+                    return 0;
+                })).sum();
     }
 
     public boolean isInsideGrid(int row, int col) {
@@ -92,17 +85,13 @@ public class GameGrid implements IGrid {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("  ");
-        for (int i = 1; i <= size; i++) {
-            sb.append(i).append(" ");
-        }
+        IntStream.rangeClosed(1, size).forEach(i -> sb.append(i).append(" "));
         sb.append("\n");
-        for (int i = 0; i < size; i++) {
+        IntStream.range(0, size).forEach(i -> {
             sb.append((char) ('A' + i)).append(" ");
-            for (int j = 0; j < size; j++) {
-                sb.append(grid[i][j].toString()).append(" ");
-            }
+            IntStream.range(0, size).forEach(j -> sb.append(grid[i][j].toString()).append(" "));
             sb.append("\n");
-        }
+        });
         return sb.toString();
     }
 }

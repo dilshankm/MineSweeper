@@ -10,88 +10,109 @@ import com.minesweeper.utils.Utils;
 import java.util.Scanner;
 
 public class ConsoleInterface implements UserInterface {
+
     private Scanner scanner;
 
     public ConsoleInterface() {
-        scanner = new Scanner(System.in);
+        this(new DefaultScannerFactory());
+    }
+
+    public ConsoleInterface(ScannerFactory scannerFactory) {
+        this.scanner = scannerFactory.createScanner();
+    }
+
+
+
+    protected void print(String message) {
+        System.out.print(message);
+    }
+
+    protected void println(String message) {
+        System.out.println(message);
     }
 
     public void displayWelcomeMessage() {
-        System.out.println(Messages.WELCOME_MESSAGE);
-        System.out.println();
+        println(Messages.WELCOME_MESSAGE);
+        println("");
     }
 
     public int getGridSize() {
         int gridSize;
         while (true) {
-            System.out.print(Messages.GRID_MESSAGE);
+            print(Messages.GRID_MESSAGE);
             if (scanner.hasNextInt()) {
                 gridSize = scanner.nextInt();
-                if (gridSize >= Constants.GRID_MIN_SIZE && gridSize <= Constants.GRID_MAX_SIDE) {
+                if (isValidGridSize(gridSize)) {
                     break;
-                } else {
-                    if (gridSize < Constants.GRID_MIN_SIZE) {
-                        System.out.println(Messages.MIN_GRID_MESSAGE + Constants.GRID_MIN_SIZE + ".");
-                    } else if (gridSize > Constants.GRID_MAX_SIDE) {
-                        System.out.println(Messages.MAX_GRID_MESSAGE + Constants.GRID_MAX_SIDE + ".");
-                    }
                 }
             } else {
-                System.out.println(Messages.INCORRECT_MESSAGE);
+                println(Messages.INCORRECT_MESSAGE);
                 scanner.nextLine();
             }
         }
         return gridSize;
     }
+
+    private boolean isValidGridSize(int gridSize) {
+        if (gridSize < Constants.GRID_MIN_SIZE) {
+            println(Messages.MIN_GRID_MESSAGE + Constants.GRID_MIN_SIZE + ".");
+            return false;
+        } else if (gridSize > Constants.GRID_MAX_SIDE) {
+            println(Messages.MAX_GRID_MESSAGE + Constants.GRID_MAX_SIDE + ".");
+            return false;
+        }
+        return true;
+    }
+
     public int getNumberOfMines(int gridSize) {
         int mineCount;
         int maxMines = (int) (gridSize * gridSize * Constants.MAX_MINE);
         while (true) {
-            System.out.print(Messages.MINE_MESSAGE);
+            print(Messages.MINE_MESSAGE);
             if (scanner.hasNextInt()) {
                 mineCount = scanner.nextInt();
-                if (mineCount >= 1 && mineCount <= maxMines) {
+                if (isValidMineCount(mineCount, maxMines)) {
                     break;
-                } else {
-                    if (mineCount < 1) {
-                        System.out.println(Messages.AT_LEAST_ONE_MINE_MESSAGE);
-                    } else {
-                        System.out.println(Messages.MAX_MINE_COUNT_MESSAGE);
-                    }
                 }
             } else {
-                System.out.println(Messages.INCORRECT_MESSAGE);
-                scanner.next(); // Change this line
+                println(Messages.INCORRECT_MESSAGE);
+                scanner.next();
             }
         }
         return mineCount;
     }
 
+    private boolean isValidMineCount(int mineCount, int maxMines) {
+        if (mineCount < 1) {
+            println(Messages.AT_LEAST_ONE_MINE_MESSAGE);
+            return false;
+        } else if (mineCount > maxMines) {
+            println(Messages.MAX_MINE_COUNT_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     public void displayGame(Game game) {
-        System.out.println();
-        if(game.getRevealedCount()>=1){
-            System.out.println(Messages.UPDATED_MINEFIELD_MESSAGE);
-        }
-        else{
-            System.out.println(Messages.MINEFIELD_MESSAGE);
-        }
-        System.out.println(game.toString());
+        println("");
+        println(game.getRevealedCount() >= 1 ? Messages.UPDATED_MINEFIELD_MESSAGE : Messages.MINEFIELD_MESSAGE);
+        println(game.toString());
     }
 
     public void displaySquareInfo(Game game, int row, int col) {
         int mines = game.getAdjacentMinesAt(row, col);
-        System.out.printf((Messages.SQUARE_INFO_FORMAT) + "%n", mines);
+        System.out.printf(Messages.SQUARE_INFO_FORMAT + "%n", mines);
     }
 
     public String getInputString(int gridSize) {
         String input;
         while (true) {
-            System.out.print(Messages.SELECT_SQUARE_MESSAGE);
+            print(Messages.SELECT_SQUARE_MESSAGE);
             input = scanner.next().toUpperCase();
             if (isValidInput(input, gridSize)) {
                 break;
             } else {
-                System.out.println(Messages.INCORRECT_MESSAGE);
+                println(Messages.INCORRECT_MESSAGE);
             }
         }
         scanner.nextLine();
@@ -101,14 +122,14 @@ public class ConsoleInterface implements UserInterface {
     public void displayGameState(Game game) {
         if (game.isGameWon()) {
             game.setGameState(GameState.WON);
-            System.out.println(Messages.WON_MESSAGE);
+            println(Messages.WON_MESSAGE);
         } else if (game.getGameState() == GameState.LOST) {
-            System.out.println(Messages.DETONATED_MINE_MESSAGE);
+            println(Messages.DETONATED_MINE_MESSAGE);
         }
     }
 
     public void playAgainPrompt() {
-        System.out.println(Messages.PLAY_AGAIN_MESSAGE);
+        println(Messages.PLAY_AGAIN_MESSAGE);
         scanner.nextLine();
     }
 
@@ -127,4 +148,11 @@ public class ConsoleInterface implements UserInterface {
         return false;
     }
 
+    public void setScanner(Scanner testScanner) {
+        this.scanner = testScanner;
+    }
 }
+
+
+
+

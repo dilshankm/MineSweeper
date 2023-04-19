@@ -3,7 +3,6 @@ package com.minesweeper;
 
 import com.minesweeper.game.Game;
 import com.minesweeper.game.GameState;
-import com.minesweeper.messages.Messages;
 import com.minesweeper.ui.console.ConsoleInterface;
 
 public class Main {
